@@ -31,28 +31,33 @@ const sketch = ({ context }) => {
 
     // Draw points
     const points = 200;
-    for (let i = 1; i <= Math.floor(points/2); i++) {
-      for (let j = 1; j <= Math.floor(points/2); j++) {
-        const t = i / points;
+    for (let i = 0; i <= Math.floor(points/2); i++) {
+      for (let j = 0; j <= Math.floor(points/2); j++) {
+        const t = (i+5) / (points * 2);
 
-        const cx = (i / width) + Math.random()/100;
-        const cy = (j / height) + Math.random()/25;
+        let cx = ((i/Math.floor(points/2)) * (width-1))  + 0.5 + (Math.random()-0.5)/25;
+        let cy = ((j/Math.floor(points/2)) * (height-1)) + 0.5 + (Math.random()-0.5)/8;
 
+        console.log(cx, cy)
+        
         // Use a random foreground color for the points
-        const strength = 25;
-        const shift = 2;
+        const strength = 15;
+        const shift = 100;
         const r = 135 + (randint(strength) - Math.floor(strength/shift));
         const g = 206 + (randint(strength) - Math.floor(strength/shift));
-        const b = 235 + (randint(strength) - Math.floor(strength/shift));
+        const b = 240 + (randint(strength) - Math.floor(strength/shift));
 
         const color = '#' + Number(r).toString(16) + Number(g).toString(16) + Number(b).toString(16)
-        //console.log(Math.random()/2)
+        console.log(r, g, b)
         context.fillStyle = color;
 
-        const radius = 0.05 * Math.pow(t, 0.1);
+        const radius = 0.04 * Math.pow(t, 0.35);
         context.beginPath();
         context.arc(cx, cy, radius, 0, Math.PI * 2, false);
         context.fill();
+
+        //break;
+
       };
     };
   };
