@@ -33,7 +33,7 @@ const sketch = ({ context }) => {
     context.fillStyle = '#0C0C0C'; //eff3f4
     context.fillRect(0, 0, width, height);
 
-    const points = 20000;
+    const points = 30000;
     for (let i = 0; i < points; i++) {
 
       x = (gaussianRand() * 22) 
@@ -47,6 +47,13 @@ const sketch = ({ context }) => {
       }
       if (y < 1.0) {
         y = 1.0;
+      }
+
+      if (y > 2.5  && y < 3.5 && x > 1.8 && x < 9.2){
+        if (Math.random() > 0.1){
+          y = 0;
+          x = 0;
+        }
       }
 
       // core grain
@@ -69,6 +76,13 @@ const sketch = ({ context }) => {
       }
       if (y < 1.0) {
         y = 1.0;
+      }
+
+      if (y > 2.5  && y < 3.5 && x > 1.8 && x < 9.2){
+        if (Math.random() > 0.1){
+          y = 0;
+          x = 0;
+        }
       }
 
       // core grain
