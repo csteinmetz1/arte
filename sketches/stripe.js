@@ -26,16 +26,16 @@ function RGBToHex(r,g,b) {
     return "#" + r + g + b;
   }
 
-function addNoise(context, points, x1, y1, x2, y2, colour){
+function addNoise(context, points, x, y, colour){
   for (let i = 0; i < points; i++) {
 
-    x1 += gaussianRand(mu=0, sigma=1);
-    y2 += gaussianRand(mu=0, sigma=1);
+    x += gaussianRand(mu=0, sigma=1);
+    y += gaussianRand(mu=0, sigma=1);
 
     // core grain
     context.fillStyle = colour;
     context.beginPath();
-    context.arc(x1, y2, Math.abs(gaussianRand(mu=0, sigma=0.01)), Math.PI * 1 * gaussianRand(), false);
+    context.arc(x, y, Math.abs(gaussianRand(mu=0.001, sigma=0.05)), Math.PI * 2, false);
     context.fill();
   };
 }
@@ -71,12 +71,12 @@ const sketch = ({ context }) => {
     var colours = [[35, 46, 141], [234, 127, 139]];
     var angles = [1.2, 0.8];
 
-    const points = 2;
+    const points = 4;
     for (let j = 0; j < colours.length; j++){
       for (let i = 0; i < points; i++) {
 
-      x = ((i/points) * width) + (gaussianRand(mu=0, sigma=2)) 
-      y = ((i/points) * height) + (gaussianRand(mu=0, sigma=2))
+      x = ((i/points) * width) + (gaussianRand(mu=0, sigma=0.1)) 
+      y = ((i/points) * height) + (gaussianRand(mu=0, sigma=0.1))
 
       if (x < 0.5) {
           x = 0.5 + Math.abs(gaussianRand(mu=1, sigma=2))
@@ -104,10 +104,8 @@ const sketch = ({ context }) => {
               colour[c] += rand
           }
       }
-      //console.log(colour)
 
-      addNoise(context, 1000, x, x, y, y, colour);
-
+      addNoise(context, 2000, x, y, colour);
       context.fillStyle = RGBToHex.apply(null, colour);
       context.beginPath()
       context.fillRect(x, x, y, y);
