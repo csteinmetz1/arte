@@ -1,5 +1,32 @@
 const canvasSketch = require('canvas-sketch');
 
+/**
+ * Randomly shuffle an array
+ * https://stackoverflow.com/a/2450976/1293256
+ * @param  {Array} array The array to shuffle
+ * @return {String}      The first item in the shuffled array
+ */
+var shuffle = function (array) {
+
+	var currentIndex = array.length;
+	var temporaryValue, randomIndex;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+
+	return array;
+
+};
+
 // Sketch parameters
 const settings = {
   dimensions: [11, 6],
@@ -71,29 +98,15 @@ const sketch = ({ context }) => {
     var colours = [[35, 46, 141], [234, 127, 139]];
     var angles = [1.2, 0.8];
 
-    const points = 4;
-    for (let j = 0; j < colours.length; j++){
-      for (let i = 0; i < points; i++) {
+    var points = [1.5, 2.5];
+    points = shuffle(points);
+    for (let i = 0; i < points.length; i++) {
+      let shift = gaussianRand(mu=0.0, sigma=0.1);
+      x = points[i] + shift;
+      y = points[i] + shift;
+      console.log(x,y);
 
-      x = ((i/points) * width) + (gaussianRand(mu=0, sigma=0.1)) 
-      y = ((i/points) * height) + (gaussianRand(mu=0, sigma=0.1))
-
-      if (x < 0.5) {
-          x = 0.5 + Math.abs(gaussianRand(mu=1, sigma=2))
-      }
-      if (y < 0.5){
-          y = 0.5 + Math.abs(gaussianRand(mu=1, sigma=2))
-      }
-
-      if (x > 10.5){
-          x = 10.5 - Math.abs(gaussianRand(mu=1, sigma=2))
-      }
-
-      if (y > 5.5){
-          y = 5.5 - Math.abs(gaussianRand(mu=1, sigma=2))
-      }
-
-      let colour = colours[j].slice();
+      let colour = colours[i].slice();
       //console.log(colour)
       for (let c = 0;  c < colour.length; c++){
           if (Math.random() > 0.8) {
@@ -105,11 +118,11 @@ const sketch = ({ context }) => {
           }
       }
 
+      colour = RGBToHex.apply(null, colour);
       addNoise(context, 2000, x, y, colour);
-      context.fillStyle = RGBToHex.apply(null, colour);
+      context.fillStyle = colour
       context.beginPath()
       context.fillRect(x, x, y, y);
-      };
     };
   };
 };
