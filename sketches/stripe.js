@@ -53,11 +53,28 @@ function RGBToHex(r,g,b) {
     return "#" + r + g + b;
   }
 
-function addNoise(context, points, x, y, colour){
+function addNoise(context, points, x, y, colour, xmax, xmin, ymax, ymin){
   for (let i = 0; i < points; i++) {
 
     x += gaussianRand(mu=0, sigma=1);
     y += gaussianRand(mu=0, sigma=1);
+
+    if (x > xmax) {
+      x -= xmax;
+    }
+
+    if (x < xmin) {
+      x += xmin;
+    }
+
+    if (y > ymax) {
+      y -= ymax;
+    }
+
+    if (y < ymin) {
+      y += ymin;
+    }
+
 
     // core grain
     context.fillStyle = colour;
@@ -119,7 +136,7 @@ const sketch = ({ context }) => {
       }
 
       colour = RGBToHex.apply(null, colour);
-      addNoise(context, 2000, x, y, colour);
+      addNoise(context, 150, x, y, colour, 10, 1, 5, 1);
       context.fillStyle = colour
       context.beginPath()
       context.fillRect(x, x, y, y);
